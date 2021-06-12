@@ -12,3 +12,11 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+// Todo: 
+// Add helper functions for: alerts, listens
+
+//Main function to generate password
+function generatePassword() {
+
+}
