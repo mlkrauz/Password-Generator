@@ -13,10 +13,26 @@ function writePassword() {
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
-// Todo: 
-// Add helper functions for: alerts, listens
+
 
 //Main function to generate password
 function generatePassword() {
-  alert("What is the desired character length of your password? (8-128)")
+  var passLength = promptLength();
+  var characterTypes = [];
+
+
+  return "" + passLength;
+}
+
+function promptLength() {
+  var userValue = prompt("What is the desired character length of your password? (8-128): ", 32);
+
+  //reminder for later: confirm that javascript boolean logic short circuits. I'm on a flight at the time of typing this.
+  if (!isNaN(userValue) && userValue >= 8 && userValue <= 128) {
+    return userValue;
+  } else {
+    alert("Invalid selection. Please try again!");
+    promptLength();
+  }
+  //todo: modify handling when the user cancels mid-prompt
 }
