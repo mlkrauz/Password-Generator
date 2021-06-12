@@ -18,5 +18,5 @@ generateBtn.addEventListener("click", writePassword);
 
 //Main function to generate password
 function generatePassword() {
-
+  alert("What is the desired character length of your password? (8-128)")
 }
