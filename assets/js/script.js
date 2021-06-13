@@ -21,12 +21,11 @@ function generatePassword() {
   try {
     var passLength = promptLength();
     var characterTypes = [];
-    
-
 
     return "" + passLength;
+
   } catch (error) {
-    //This will be returned if the labeled block above is broken by canceling.
+    //This will be returned if the labeled block above is broken by canceling. Or if something breaks.
     return "Password generation cancelled."
   }
 }
@@ -34,11 +33,11 @@ function generatePassword() {
 function promptLength() {
   var userInput = handlePrompt("What is the desired character length of your password? (8-128): ", 32);
 
-  if (!isNaN(userInput) && userInput >= 8 && userInput <= 128) {
+  if (isNaN(Number(userInput)) || userInput <= 8 || userInput >= 128) {
     return userInput;
   } else {
     alert("Invalid selection. Please try again!");
-    promptLength();
+    return promptLength();
   }
 }
 
@@ -53,13 +52,11 @@ function handlePrompt(message, defaultAnswer) {
 }
 
 function checkForCancel(userInput) {
-  if (userInput === null || userInput == "") {
+  if (userInput === null) { //This occurs when the user hits the cancel button.
     var cancelConfirm = confirm("Are you sure you want to quit the password generator? OK to confirm, cancel to be taken back.");
     if (cancelConfirm == true) {
       //Throw an error to cancel
       throw "User cancellation exception."
-    } else {
-      return;
     }
   }
 }
