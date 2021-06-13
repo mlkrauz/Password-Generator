@@ -17,22 +17,49 @@ generateBtn.addEventListener("click", writePassword);
 
 //Main function to generate password
 function generatePassword() {
-  var passLength = promptLength();
-  var characterTypes = [];
+  //By putting the content of the password generation within a try..catch, we can exit if the user cancels.
+  try {
+    var passLength = promptLength();
+    var characterTypes = [];
+    
 
 
-  return "" + passLength;
+    return "" + passLength;
+  } catch (error) {
+    //This will be returned if the labeled block above is broken by canceling.
+    return "Password generation cancelled."
+  }
 }
 
 function promptLength() {
-  var userValue = prompt("What is the desired character length of your password? (8-128): ", 32);
+  var userInput = handlePrompt("What is the desired character length of your password? (8-128): ", 32);
 
-  //reminder for later: confirm that javascript boolean logic short circuits. I'm on a flight at the time of typing this.
-  if (!isNaN(userValue) && userValue >= 8 && userValue <= 128) {
-    return userValue;
+  if (!isNaN(userInput) && userInput >= 8 && userInput <= 128) {
+    return userInput;
   } else {
     alert("Invalid selection. Please try again!");
     promptLength();
   }
-  //todo: modify handling when the user cancels mid-prompt
+}
+
+//------------------------------------
+//----------Helper Functions----------
+//------------------------------------
+
+function handlePrompt(message, defaultAnswer) {
+  var userInput = prompt(message, defaultAnswer);
+  checkForCancel(userInput);
+  return userInput;
+}
+
+function checkForCancel(userInput) {
+  if (userInput === null || userInput == "") {
+    var cancelConfirm = confirm("Are you sure you want to quit the password generator? OK to confirm, cancel to be taken back.");
+    if (cancelConfirm == true) {
+      //Throw an error to cancel
+      throw "User cancellation exception."
+    } else {
+      return;
+    }
+  }
 }
