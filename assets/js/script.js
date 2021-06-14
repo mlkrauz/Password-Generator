@@ -21,13 +21,20 @@ generateBtn.addEventListener("click", writePassword);
 function generatePassword() {
   //By putting the content of the password generation within a try..catch, we can exit if the user cancels.
   try {
-    var passLength = promptLength();
-    var characterList = promptCharacterTypes();
+    var passLength = Number(promptLength());
+    var characterList = [];
+    characterList = characterList.concat(promptCharacterTypes());
+    var password = "";
 
-    return passLength, characterList;
+    for (var i = 0; i < passLength; i++) {
+      var random = Math.floor(Math.random() * characterList.length);
+      password = password + characterList[random];
+    }
+
+    return password;
 
   } catch (error) {
-    //This will be returned if the labeled block above is broken by canceling. Or if something breaks. Your guess is mine.
+    //This will be returned if the cancellation exception is thrown. Or if something breaks. Your guess is mine.
     return "Password generation cancelled."
   }
 }
@@ -80,10 +87,11 @@ function promptCharacterTypes() {
     return characterList;
 
   } else if (userInput == null) {
-      return promptCharacterTypes();
+    return promptCharacterTypes();
+    
   } else {
-      alert("Invalid selection. Please try again!");
-      return promptCharacterTypes();
+    alert("Invalid selection. You must include a 1, 2, 3, and/or 4 in your answer. Please try again!");
+    return promptCharacterTypes();
   }
 
 }
