@@ -34,8 +34,13 @@ function generatePassword() {
     return password;
 
   } catch (error) {
-    //This will be returned if the cancellation exception is thrown. Or if something breaks. Your guess is mine.
-    return "Password generation cancelled."
+    if (error == "User cancellation exception.") {
+      //This will be returned if the cancellation exception is thrown. Or if something breaks. Your guess is mine.
+      return "Password generation cancelled."
+    }
+    else {
+      return "Error: Unhandled exception."
+    }
   }
 }
 
@@ -45,10 +50,12 @@ function generatePassword() {
 function promptLength() {
   var userInput = handlePrompt("What is the desired character length of your password? (8-128): ", 32);
 
-  if (!isNaN(Number(userInput)) && userInput >= 8 && userInput <= 128) {
+  if (userInput == null) { //This occurs when a prompt is cancelled, but the user returns to resume.
+    return promptLength();  
+    
+  } else if (!isNaN(Number(userInput)) && userInput >= 8 && userInput <= 128) {
     return userInput;
-  } else if (userInput == null) { //This occurs when a prompt is cancelled, but the user returns to resume.
-     return promptLength();  
+
   } else {
       alert("Invalid selection. Please try again!");
     return promptLength();
@@ -59,7 +66,10 @@ function promptCharacterTypes() {
   var userInput = handlePrompt("What combination of character types should your password contain? " + 
     "Type 1 for lower case, 2 for upper case, 3 for numbers, 4 for special characters.", "1234")
 
-  if (userInput.includes("1") || userInput.includes("2") || userInput.includes("3") || userInput.includes("4")) {
+  if (userInput == null) {
+    return promptCharacterTypes();
+
+  } else if (userInput.includes("1") || userInput.includes("2") || userInput.includes("3") || userInput.includes("4")) {
     var characterList = [];
 
     //Update characterList to reflect the selected types.
@@ -86,9 +96,6 @@ function promptCharacterTypes() {
     console.log(characterList);
     return characterList;
 
-  } else if (userInput == null) {
-    return promptCharacterTypes();
-    
   } else {
     alert("Invalid selection. You must include a 1, 2, 3, and/or 4 in your answer. Please try again!");
     return promptCharacterTypes();
